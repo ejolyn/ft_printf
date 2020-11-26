@@ -3,7 +3,8 @@
 
 int main(void)
 {
-	int a = 6;
-	ft_printf("%%%s", "sdf");
+	int i = -24;
+//	printf("%-2.3d\n", i);
+	printf("-015p", &i);
 	return (0);
 }

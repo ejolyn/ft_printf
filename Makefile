@@ -6,11 +6,12 @@
 #    By: ejolyn <ejolyn@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/17 15:50:36 by ejolyn            #+#    #+#              #
-#    Updated: 2020/11/23 17:42:51 by ejolyn           ###   ########.fr        #
+#    Updated: 2020/11/26 18:29:00 by ejolyn           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS		= 	ft_atoi.c ft_itoa.c ft_printf.c ft_strlen.c parser.c processor.c ft_strchr.c ft_isdigit.c
+SRCS		= 	ft_atoi.c ft_putnbr_fd.c ft_printf.c ft_strlen.c parser.c processor.c ft_strchr.c ft_isdigit.c processor_numbers.c processor_16x.c /
+				processor_pointer.c
 
 OBJS		=	${SRCS:.c=.o}
 
@@ -34,7 +35,7 @@ $(NAME):	${OBJS} ${INCLUDE}
 all:		${NAME}
 
 clean:
-			${RM} ${OBJS} ${BONOBJS}
+			${RM} ${OBJS}
 
 fclean:		clean
 			${RM} ${NAME}

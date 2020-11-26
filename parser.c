@@ -6,7 +6,7 @@
 /*   By: ejolyn <ejolyn@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/21 12:36:53 by ejolyn            #+#    #+#             */
-/*   Updated: 2020/11/23 17:32:31 by ejolyn           ###   ########.fr       */
+/*   Updated: 2020/11/26 16:38:27 by ejolyn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int ft_parsered_width(t_parsered *inf, char *unparsed)
 	int		i;
 
 	i = 0;
-	inf->width = 0;
 	if (*unparsed == '*')
 	{
 		inf->width = -1;
@@ -48,6 +47,7 @@ int ft_parsered_width(t_parsered *inf, char *unparsed)
 		i++;
 		inf->length++;
 	}
+	width[i] = '\0';
 	inf->width = ft_atoi(width);
 	return (i);
 }
@@ -57,7 +57,6 @@ int ft_parsered_precision(t_parsered *inf, char *unparsed)
 	int		i;
 
 	i = 0;
-	inf->precision = 0;
 	inf->length++;
 	if (*++unparsed == '*')
 	{
@@ -67,12 +66,22 @@ int ft_parsered_precision(t_parsered *inf, char *unparsed)
 	}
 	while (ft_isdigit(unparsed[i]))
 	{
-		precision[i + 1] = unparsed[i + 1];
+		precision[i] = unparsed[i];
 		i++;
 		inf->length++;
 	}
-	inf->width = ft_atoi(precision);
+	precision[i] = '\0';
+	inf->precision = ft_atoi(precision);
 	return (i + 1);
+}
+void init(t_parsered *inf)
+{
+	inf->width = 0;
+	inf->precision = 0;
+	inf->flag_minus = 0;
+	inf->flag_nul = 0;
+	inf->length = 0;
+	inf->type = 0;
 }
 t_parsered *ft_parser(char *unparsed)
 {
@@ -81,11 +90,12 @@ t_parsered *ft_parser(char *unparsed)
 
 	if (!(inf = (t_parsered*)malloc(sizeof *inf)))
 		return (NULL);
-	inf->length = 0;
+	init (inf);
 	ft_parsered_flags(inf, unparsed);
 	unparsed += inf->length;
 	len = ft_parsered_width(inf, unparsed);
 	unparsed += len;
+	inf->precision_flag = (*unparsed == '.') ? 1 : 0;
 	if (*unparsed == '.')
 	{
 		len = ft_parsered_precision(inf, unparsed);

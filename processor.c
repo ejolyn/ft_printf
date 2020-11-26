@@ -6,7 +6,7 @@
 /*   By: ejolyn <ejolyn@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 14:31:57 by ejolyn            #+#    #+#             */
-/*   Updated: 2020/11/23 17:34:16 by ejolyn           ###   ########.fr       */
+/*   Updated: 2020/11/26 18:29:18 by ejolyn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,64 +15,46 @@
 void process_char(va_list *argptr, t_parsered *inf)
 {
 	unsigned char c;
-
-	inf->width = 0;
+	if (inf->flag_minus == 0)
+		process_alignment(1, inf, ' ');
 	c = (unsigned char)va_arg(*argptr, int);
 	write (1, &c, 1);
+	if (inf->flag_minus == 1)
+		process_alignment(1, inf, ' ');
 }
 
 void process_str(va_list *argptr, t_parsered *inf)
 {
 	char	*str;
-	size_t		len;
+	size_t	len;
+	int		i = 0;
 
-	inf->width = 0;
 	str = va_arg(*argptr, char*);
+	if (str == NULL)
+		str = "(null)";
 	len = ft_strlen(str);
-	write (1, str, len);
+	if (inf->precision < (int)len && inf->precision_flag == 1)
+		len = inf->precision;
+	if (inf->flag_minus == 0)
+		process_alignment(len, inf, ' ');
+	i = write (1, str, len);
+	if (inf->flag_minus == 1)
+		process_alignment(len, inf, ' ');
 }
 
-void process_ptr(va_list *argptr, t_parsered *inf)
+void process_alignment(int len, t_parsered *inf, char type)
 {
-	void	*ptr;
-	int		len;
-
-	inf->width = 0;
-	len = 0;
-	ptr = va_arg(*argptr, void*);
-	write (1, ptr, len);
+	if (inf->width > len)
+		while (len < inf->width--)
+			write(1, &type, 1);
 }
 
-void process_number(va_list *argptr, t_parsered *inf)
-{
-	int		numb;
-	int		len;
-
-	inf->width = 0;
-	len = 0;
-	numb = va_arg(*argptr, int);
-	write (1, ft_itoa(numb), len);
-}
-void process_unsigned_number(va_list *argptr, t_parsered *inf)
-{
-	unsigned int		numb;
-	size_t		len;
-
-	inf->width = 0;
-	len = 0;
-	numb = va_arg(*argptr, unsigned int);
-	if (numb < 0)
-		numb *= -1;
-	write (1, ft_itoa(numb), len);
-}
-void process_16base(va_list *argptr, t_parsered *inf)
-{
-	inf->width = 0;
-	argptr = 0;
-	return ;
-}
 void processor_distributor(va_list *argptr, t_parsered *inf)
 {
+	if (inf->width == -1)
+		inf->width = va_arg(*argptr, int);
+	if (inf->precision == -1)
+		inf->precision = va_arg(*argptr, int);
 	if (inf->type == 'c')
 		process_char(argptr, inf);
 	else if (inf->type == 's')
@@ -83,6 +65,8 @@ void processor_distributor(va_list *argptr, t_parsered *inf)
 		process_number(argptr, inf);
 	else if (inf->type == 'u')
 		process_unsigned_number(argptr, inf);
-	else if (inf->type == 'x' || inf->type == 'X')
-		process_16base(argptr, inf);
+	else if (inf->type == 'x')
+		process_16base_small(argptr, inf);
+	else if (inf->type == 'X')
+		process_16base_big(argptr, inf);
 }

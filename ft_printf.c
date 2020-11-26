@@ -6,7 +6,7 @@
 /*   By: ejolyn <ejolyn@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 16:22:06 by ejolyn            #+#    #+#             */
-/*   Updated: 2020/11/23 17:35:49 by ejolyn           ###   ########.fr       */
+/*   Updated: 2020/11/24 14:21:54 by ejolyn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int	ft_printf(const char *s, ...)
 	{
 		if (*s == '%' && *(s + 1) != '%')
 		{
-			inf = ft_parser((char *)++s);
+			if (!(inf = ft_parser((char *)++s)))
+				break ;
 			s += inf->length;
 			processor_distributor(&argptr, inf);
 			continue ;

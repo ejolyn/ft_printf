@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   processor_pointer.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ejolyn <ejolyn@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/28 13:06:06 by ejolyn            #+#    #+#             */
-/*   Updated: 2020/11/26 14:06:41 by ejolyn           ###   ########.fr       */
+/*   Created: 2020/11/26 18:28:42 by ejolyn            #+#    #+#             */
+/*   Updated: 2020/11/26 18:30:18 by ejolyn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-size_t	ft_strlen(const char *s)
+void process_ptr(va_list *argptr, t_parsered *inf)
 {
-	size_t	i;
+	void	*ptr;
+	int		len;
 
-	i = 0;
-	while (s[i] != '\0')
-		i++;
-	return (i);
+	inf->width = 0;
+	len = 0;
+	ptr = va_arg(*argptr, void*);
+	write (1, ptr, len);
 }
