@@ -6,13 +6,13 @@
 /*   By: ejolyn <ejolyn@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/21 12:36:53 by ejolyn            #+#    #+#             */
-/*   Updated: 2020/11/26 16:38:27 by ejolyn           ###   ########.fr       */
+/*   Updated: 2020/11/28 11:31:07 by ejolyn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void ft_parsered_flags(t_parsered *inf, char *unparsed)
+void		ft_parsered_flags(t_parsered *inf, char *unparsed)
 {
 	inf->flag_nul = 0;
 	inf->flag_minus = 0;
@@ -29,9 +29,9 @@ void ft_parsered_flags(t_parsered *inf, char *unparsed)
 		inf->flag_nul = 0;
 }
 
-int ft_parsered_width(t_parsered *inf, char *unparsed)
+int			ft_parsered_width(t_parsered *inf, char *unparsed)
 {
-	char 	width[100];
+	char	width[100];
 	int		i;
 
 	i = 0;
@@ -51,9 +51,10 @@ int ft_parsered_width(t_parsered *inf, char *unparsed)
 	inf->width = ft_atoi(width);
 	return (i);
 }
-int ft_parsered_precision(t_parsered *inf, char *unparsed)
+
+int			ft_parsered_precision(t_parsered *inf, char *unparsed)
 {
-	char 	precision[100];
+	char	precision[100];
 	int		i;
 
 	i = 0;
@@ -74,7 +75,8 @@ int ft_parsered_precision(t_parsered *inf, char *unparsed)
 	inf->precision = ft_atoi(precision);
 	return (i + 1);
 }
-void init(t_parsered *inf)
+
+void		init(t_parsered *inf)
 {
 	inf->width = 0;
 	inf->precision = 0;
@@ -82,15 +84,18 @@ void init(t_parsered *inf)
 	inf->flag_nul = 0;
 	inf->length = 0;
 	inf->type = 0;
+	inf->ret_value = 0;
+	inf->count_nul = 0;
 }
-t_parsered *ft_parser(char *unparsed)
+
+t_parsered	*ft_parser(char *unparsed)
 {
 	t_parsered	*inf;
 	int			len;
 
-	if (!(inf = (t_parsered*)malloc(sizeof *inf)))
+	if (!(inf = (t_parsered*)malloc(sizeof(*inf))))
 		return (NULL);
-	init (inf);
+	init(inf);
 	ft_parsered_flags(inf, unparsed);
 	unparsed += inf->length;
 	len = ft_parsered_width(inf, unparsed);

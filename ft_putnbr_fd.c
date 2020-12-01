@@ -6,7 +6,7 @@
 /*   By: ejolyn <ejolyn@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 17:39:32 by ejolyn            #+#    #+#             */
-/*   Updated: 2020/11/26 17:09:00 by ejolyn           ###   ########.fr       */
+/*   Updated: 2020/11/28 11:16:37 by ejolyn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_putnbr_fd(int n)
 	}
 	else if (n == -2147483648)
 	{
-		write(1, "2", 2);
+		write(1, "2", 1);
 		ft_putnbr_fd(147483648);
 	}
 	else if (n > 9)
@@ -53,7 +53,7 @@ void	ft_putnbr_fd(int n)
 		ft_putchar_fd(n + '0');
 }
 
-int				counter(int n)
+int		counter(int n)
 {
 	int len;
 
@@ -68,12 +68,10 @@ int				counter(int n)
 	return (len);
 }
 
-int				u_counter(int n)
+int		u_counter(unsigned int n)
 {
 	int len;
-	unsigned int n2;
 
-	n2 = n;
 	len = 0;
 	if (n == 0)
 		return (1);
